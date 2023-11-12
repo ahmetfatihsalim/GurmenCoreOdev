@@ -9,11 +9,11 @@ namespace Gurmen.DataAccess.Repository.IRepository
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
-        T GetFirstOrDefault(Expression<Func<T, bool>> filter);
-        void Add(T entity);
-        void Update(T entity);
-        void Remove(T entity);
-        void RemoveRange(IEnumerable<T> entities);
+        Task<List<T>> GetAll();
+        Task<T> GetFirstOrDefault(Expression<Func<T, bool>> filter);
+        Task Add(T entity);
+        Task Update(T entity);
+        Task Remove(T entity);
+        Task RemoveRange(IEnumerable<T> entities);
     }
 }

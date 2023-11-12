@@ -14,35 +14,35 @@ namespace GurmenAhmetFatihSalim.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Person> people= _unitOfWork.PersonRepository.GetAll().ToList();
+            List<Person> people = await _unitOfWork.PersonRepository.GetAll();
             return View(people);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(Person person)
+        public async Task<IActionResult> Create(Person person)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.PersonRepository.Add(person);
-                _unitOfWork.Save();
+                await _unitOfWork.PersonRepository.Add(person);
+                await _unitOfWork.Save();
             }
             return View();
         }
 
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            Person? person = _unitOfWork.PersonRepository.GetFirstOrDefault(person => person.ID == id);
+            Person? person = await _unitOfWork.PersonRepository.GetFirstOrDefault(person => person.ID == id);
             if (person == null)
             {
                 return NotFound();
@@ -52,23 +52,23 @@ namespace GurmenAhmetFatihSalim.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Person person)
+        public async Task<IActionResult> Edit(Person person)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.PersonRepository.Update(person);
-                _unitOfWork.Save();
+                await _unitOfWork.PersonRepository.Update(person);
+                await _unitOfWork.Save();
             }
             return View();
         }
 
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            Person? person = _unitOfWork.PersonRepository.GetFirstOrDefault(person => person.ID == id);
+            Person? person = await _unitOfWork.PersonRepository.GetFirstOrDefault(person => person.ID == id);
             if (person == null)
             {
                 return NotFound();
@@ -79,15 +79,15 @@ namespace GurmenAhmetFatihSalim.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
-        public IActionResult DeletePOST(int? id)
+        public async Task<IActionResult> DeletePOST(int? id)
         {
-            Person? person = _unitOfWork.PersonRepository.GetFirstOrDefault(person => person.ID == id);
+            Person? person = await _unitOfWork.PersonRepository.GetFirstOrDefault(person => person.ID == id);
             if (person == null)
             {
                 return NotFound();
             }
-            _unitOfWork.PersonRepository.Remove(person);
-            _unitOfWork.Save();
+            await _unitOfWork.PersonRepository.Remove(person);
+            await _unitOfWork.Save();
             return RedirectToAction("Index");
         }
     }

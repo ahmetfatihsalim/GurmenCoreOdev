@@ -9,6 +9,6 @@ namespace Gurmen.DataAccess.Repository.IRepository
     public interface IUnitOfWork
     {
         IPersonRepository PersonRepository { get; }
-        void Save();
+        Task Save();
     }
 }
